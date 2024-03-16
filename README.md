@@ -1,1 +1,1 @@
-# bgslibrary-python-examples
+# bgslibrary-examples-python
