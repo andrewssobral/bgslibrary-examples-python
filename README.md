@@ -57,6 +57,14 @@ Replace `demo_framediff_video.py` with the name of the script you wish to run.
 - Make sure to place your video files or image sequences in the appropriate directory as specified by the scripts (`dataset/video.avi` for videos, `dataset/frames` for image sequences).
 - The `helper/utils.py` script contains utility functions used by the demonstration scripts. Ensure this script is accessible by placing it in a `helper` directory within your project.
 
+## Google Colab example
+
+Please click on the link below to access the notebook example on Google Colab:
+
+https://colab.research.google.com/drive/1HDc0cE7PDQM9zxm5z-bK_UggzIBpK2DH
+
+The same notebook is available under the folder `notebooks`.
+
 ## Acknowledgements
 
 This project utilizes the `pybgs` library, a Python wrapper for the BGSlibrary, to demonstrate background subtraction techniques.
