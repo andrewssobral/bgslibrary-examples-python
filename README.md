@@ -2,6 +2,10 @@
 
 This repository contains Python scripts demonstrating the use of the `pybgs` library, a Python wrapper for the Background Subtraction Library (BGSlibrary). The examples illustrate how to apply different background subtraction algorithms on video data and image sequences for moving object detection.
 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg) ![Platform: Windows, Linux, OS X](https://img.shields.io/badge/Platform-Windows%2C%20Linux%2C%20OS%20X-blue.svg) ![OpenCV](https://img.shields.io/badge/OpenCV-2.4.x%2C%203.x%2C%204.x-blue.svg) ![Algorithms](https://img.shields.io/badge/Algorithms-43-red.svg)
+
+[![BGS Library Demo](https://raw.githubusercontent.com/andrewssobral/bgslibrary/master/docs/images/bgs_giphy2.gif)](https://youtu.be/_UbERwuQ0OU)
+
 ## Features
 
 - Demonstrations of various background subtraction algorithms from the `pybgs` library.
