@@ -39,9 +39,10 @@ This script will create a new virtual environment named `env`, upgrade pip, and 
 
 There are several demonstration scripts included in the repository:
 
-- `demo_framediff_video.py`: Shows how to use the Frame Difference algorithm on a video file.
-- `demo_multi_bgs.py`: An advanced demonstration that processes video files or image sequences with multiple background subtraction algorithms.
-- `demo_show_version.py`: Displays the version of the `pybgs` library.
+- `demo_framediff_video.py`: Demonstrates the Frame Difference algorithm on a video file.
+- `demo_multi_bgs.py`: An advanced demonstration processing video files or image sequences with multiple background subtraction algorithms.
+- `demo_list_algs.py`: Lists all the background subtraction algorithms available in the pybgs library with their index numbers.
+- `demo_show_version.py`: Displays the currently installed version of the pybgs library.
 
 To run an example, make sure your virtual environment is activated, and then execute the script like so:
 

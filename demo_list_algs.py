@@ -1,3 +1,14 @@
+"""
+List Background Subtraction Algorithms
+
+This script lists all the background subtraction algorithms available in the pybgs library.
+It demonstrates how to initialize the algorithms and then print each one with its corresponding index number.
+
+Requirements:
+- OpenCV
+- pybgs library
+"""
+
 import cv2
 from helper.utils import *
 

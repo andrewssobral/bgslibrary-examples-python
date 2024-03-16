@@ -24,7 +24,7 @@ import sys
 import cv2
 import glob
 
-from helper.utils import *  # Consider specifying imported names for clarity
+from helper.utils import *
 
 # Display the installed OpenCV version
 print("OpenCV Version: {}".format(cv2.__version__))
