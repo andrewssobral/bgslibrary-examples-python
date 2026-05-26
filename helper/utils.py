@@ -7,9 +7,7 @@ of a comprehensive list of background subtraction algorithms, and functions to p
 files and image sequences using these algorithms.
 
 Key Functions:
-- is_cv2, is_cv3, is_cv4, is_lower_or_equals_cv347: Check the OpenCV version installed.
-- check_opencv_version: Helper function to check for specific OpenCV major version.
-- initialize_algorithms: Initializes a list of background subtraction algorithms available in the pybgs library, adjusted for the installed version of OpenCV.
+- initialize_algorithms: Instantiates the background subtraction algorithms exposed by the installed pybgs build (each added only if available; see the note in the function).
 - process_images: Processes a sequence of images using a specified background subtraction algorithm, displaying the original image, foreground mask, and background model.
 - process_video: Processes video files frame by frame using a specified background subtraction algorithm, displaying the original frame, foreground mask, and background model.
 
@@ -22,56 +20,44 @@ lifting of algorithm initialization and frame processing, simplifying the main s
 import cv2
 import pybgs as bgs
 
-# Functions to check OpenCV version
-def is_cv2():
-    return check_opencv_version("2.")
-
-def is_cv3():
-    return check_opencv_version("3.")
-
-def is_lower_or_equals_cv347():
-    [major, minor, revision] = cv2.__version__.split('.')
-    return int(major) == 3 and int(minor) <= 4 and int(revision) <= 7
-
-def is_cv4():
-    return check_opencv_version("4.")
-
-def check_opencv_version(major):
-    return cv2.__version__.startswith(major)
-
-
 def initialize_algorithms():
     """
-    Initialize and return a list of background subtraction algorithms based on the installed OpenCV version.
+    Instantiate and return the background subtraction algorithms exposed by the
+    installed pybgs build.
+
+    Which algorithms are available depends on the OpenCV version pybgs was COMPILED
+    against, not on cv2.__version__ (the opencv-python build). We therefore instantiate
+    each one only if this pybgs build exposes it, skipping the rest with a message, so
+    the demos work with any build instead of raising AttributeError.
     """
-    algos = [
-        bgs.FrameDifference(), bgs.StaticFrameDifference(), bgs.WeightedMovingMean(),
-        bgs.WeightedMovingVariance(), bgs.AdaptiveBackgroundLearning(),
-        bgs.AdaptiveSelectiveBackgroundLearning(), bgs.MixtureOfGaussianV2(),
-        bgs.PixelBasedAdaptiveSegmenter(), bgs.SigmaDelta(), bgs.SuBSENSE(), bgs.LOBSTER(),
-        bgs.PAWCS(), bgs.TwoPoints(), bgs.ViBe(), bgs.CodeBook(),
-        bgs.FuzzySugenoIntegral(), bgs.FuzzyChoquetIntegral(), bgs.LBSimpleGaussian(),
-        bgs.LBFuzzyGaussian(), bgs.LBMixtureOfGaussians(), bgs.LBAdaptiveSOM(),
-        bgs.LBFuzzyAdaptiveSOM(), bgs.VuMeter(), bgs.KDE(), bgs.IndependentMultimodal()
+    names = [
+        # Available on all supported OpenCV versions
+        "FrameDifference", "StaticFrameDifference", "WeightedMovingMean",
+        "WeightedMovingVariance", "AdaptiveBackgroundLearning",
+        "AdaptiveSelectiveBackgroundLearning", "MixtureOfGaussianV2",
+        "PixelBasedAdaptiveSegmenter", "SigmaDelta", "SuBSENSE", "LOBSTER",
+        "PAWCS", "TwoPoints", "ViBe", "CodeBook",
+        "FuzzySugenoIntegral", "FuzzyChoquetIntegral", "LBSimpleGaussian",
+        "LBFuzzyGaussian", "LBMixtureOfGaussians", "LBAdaptiveSOM",
+        "LBFuzzyAdaptiveSOM", "VuMeter", "KDE", "IndependentMultimodal",
+        # OpenCV 2.x only
+        "MixtureOfGaussianV1", "GMG",
+        # OpenCV > 2.x
+        "KNN",
+        # OpenCV 2.x / 3.x only
+        "DPAdaptiveMedian", "DPGrimsonGMM", "DPZivkovicAGMM", "DPMean", "DPWrenGA",
+        "DPPratiMediod", "DPEigenbackground", "DPTexture",
+        "T2FGMM_UM", "T2FGMM_UV", "T2FMRF_UM", "T2FMRF_UV", "MultiCue",
+        # OpenCV 2.x / <= 3.4.7 only
+        "LBP_MRF", "MultiLayer",
     ]
 
-    if is_cv2():
-        algos.extend([bgs.MixtureOfGaussianV1(), bgs.GMG()])  # OpenCV 2.x specific
-
-    if not is_cv2():
-        algos.append(bgs.KNN())  # OpenCV > 2.x specific
-
-    if is_cv2() or is_cv3():
-        algos.extend([
-            bgs.DPAdaptiveMedian(), bgs.DPGrimsonGMM(), bgs.DPZivkovicAGMM(),
-            bgs.DPMean(), bgs.DPWrenGA(), bgs.DPPratiMediod(), bgs.DPEigenbackground(),
-            bgs.DPTexture(), bgs.T2FGMM_UM(), bgs.T2FGMM_UV(), bgs.T2FMRF_UM(),
-            bgs.T2FMRF_UV(), bgs.MultiCue()
-        ])
-
-    if is_cv2() or is_lower_or_equals_cv347():
-        algos.extend([bgs.LBP_MRF(), bgs.MultiLayer()])
-
+    algos = []
+    for name in names:
+        if hasattr(bgs, name):
+            algos.append(getattr(bgs, name)())
+        else:
+            print("skipping (not available in this pybgs build):", name)
     return algos
 
 def process_images(img_array, algorithm):
