@@ -35,6 +35,32 @@ You can set up a virtual environment and install the necessary dependencies by f
 
 This script will create a new virtual environment named `env`, upgrade pip, and install `numpy`, `opencv-python`, and `pybgs`.
 
+Alternatively, using [Pixi](https://pixi.prefix.dev/latest/) (recommended):
+
+1. Build and install the [BGSLibrary](https://github.com/andrewssobral/bgslibrary) from source.
+
+   ```bash
+   git clone --recursive https://github.com/andrewssobral/bgslibrary.git
+   cd bgslibrary
+   pixi shell
+   # configure + build pybgs (BGS_PYTHON_SUPPORT=ON, into build_py/)
+   pixi run build_python
+   # install pybgs into the Pixi environment's site-packages
+   pixi run install_python
+   # verify the import works
+   python -c "import pybgs; print(pybgs.__version__)"
+   ```
+
+   The `pybgs` module will be installed into the active Pixi environment under `.pixi/envs/default/`.
+
+2. While still inside the same Pixi shell, clone this repository and run the examples:
+
+   ```bash
+   git clone https://github.com/andrewssobral/bgslibrary-examples-python
+   cd bgslibrary-examples-python
+   python demo_list_algs.py
+   ```
+
 ## Usage
 
 There are several demonstration scripts included in the repository:
